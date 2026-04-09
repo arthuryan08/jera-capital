@@ -18,7 +18,6 @@ async function handler(
   const url = new URL(backendPath, BACKEND_URL)
 
   const headers: HeadersInit = {
-    "Content-Type": "application/json",
     Authorization: `Bearer ${session.backendToken}`,
   }
 
@@ -27,16 +26,21 @@ async function handler(
     headers,
   }
 
-  if (req.method !== "GET" && req.method !== "HEAD") {
+  if (req.method !== "GET" && req.method !== "HEAD" && req.method !== "DELETE") {
     const body = await req.text()
     if (body) {
+      ;(headers as Record<string, string>)["Content-Type"] = "application/json"
       fetchOptions.body = body
     }
   }
 
   const res = await fetch(url.toString(), fetchOptions)
-  const data = await res.json().catch(() => null)
 
+  if (res.status === 204) {
+    return new NextResponse(null, { status: 204 })
+  }
+
+  const data = await res.json().catch(() => null)
   return NextResponse.json(data, { status: res.status })
 }
 

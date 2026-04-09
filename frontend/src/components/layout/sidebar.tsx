@@ -23,7 +23,7 @@ export function Sidebar({ user }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <aside className="flex h-screen w-64 flex-col border-r bg-card">
+    <aside className="fixed inset-y-0 left-0 z-30 flex h-screen w-64 flex-col overflow-y-auto border-r bg-card">
       <div className="flex h-14 items-center px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="text-lg font-bold">Jera Capital</span>
