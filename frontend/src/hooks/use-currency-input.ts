@@ -4,22 +4,13 @@ import { useState, useCallback } from "react"
 import type { Control, FieldValues, Path } from "react-hook-form"
 import { useController } from "react-hook-form"
 
-function formatAsCurrency(value: number): string {
-  if (isNaN(value) || value === 0) return ""
+function formatCents(cents: number): string {
+  if (cents === 0) return ""
+  const value = cents / 100
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: "BRL",
   }).format(value)
-}
-
-function parseRawValue(raw: string): number {
-  const cleaned = raw
-    .replace(/R\$\s?/, "")
-    .replace(/\./g, "")
-    .replace(",", ".")
-    .trim()
-  const value = parseFloat(cleaned)
-  return isNaN(value) ? 0 : value
 }
 
 export function useCurrencyInput<T extends FieldValues>(
@@ -27,33 +18,46 @@ export function useCurrencyInput<T extends FieldValues>(
   name: Path<T>
 ) {
   const { field } = useController({ control, name })
-  const [displayValue, setDisplayValue] = useState(
-    field.value ? formatAsCurrency(field.value) : ""
+  const [cents, setCents] = useState(() => {
+    const initial = typeof field.value === "number" ? field.value : 0
+    return Math.round(initial * 100)
+  })
+
+  const displayValue = formatCents(cents)
+
+  const onKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      e.preventDefault()
+
+      if (e.key === "Backspace" || e.key === "Delete") {
+        const next = Math.floor(cents / 10)
+        setCents(next)
+        field.onChange(next / 100)
+        return
+      }
+
+      const digit = e.key
+      if (!/^\d$/.test(digit)) return
+
+      const next = cents * 10 + parseInt(digit, 10)
+      if (next > 99999999999) return
+      setCents(next)
+      field.onChange(next / 100)
+    },
+    [cents, field]
   )
 
   const onChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const raw = e.target.value
-      setDisplayValue(raw)
-      const numeric = parseRawValue(raw)
-      field.onChange(numeric)
+    (_e: React.ChangeEvent<HTMLInputElement>) => {
+      // handled by onKeyDown
     },
-    [field]
+    []
   )
-
-  const onBlur = useCallback(() => {
-    const numeric = typeof field.value === "number" ? field.value : 0
-    if (numeric > 0) {
-      setDisplayValue(formatAsCurrency(numeric))
-    } else {
-      setDisplayValue("")
-    }
-    field.onBlur()
-  }, [field])
 
   return {
     displayValue,
     onChange,
-    onBlur,
+    onKeyDown,
+    onBlur: field.onBlur,
   }
 }

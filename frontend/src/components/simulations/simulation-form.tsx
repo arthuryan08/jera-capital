@@ -76,7 +76,7 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
       )
       onResult?.(result, data)
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Erro ao calcular simulacao")
+      toast.error(err instanceof Error ? err.message : "Erro ao calcular simulação")
     } finally {
       setIsCalculating(false)
     }
@@ -90,10 +90,10 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
         method: "POST",
         body: JSON.stringify(payload),
       })
-      toast.success("Simulacao salva com sucesso!")
+      toast.success("Simulação salva com sucesso!")
       router.push("/simulations")
     } catch (err) {
-      toast.error(err instanceof Error ? err.message : "Erro ao salvar simulacao")
+      toast.error(err instanceof Error ? err.message : "Erro ao salvar simulação")
     } finally {
       setIsSaving(false)
     }
@@ -105,14 +105,14 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
     <form className="space-y-6">
       <Card>
         <CardHeader>
-          <CardTitle>Dados da Simulacao</CardTitle>
+          <CardTitle>Dados da Simulação</CardTitle>
           <CardDescription>
-            Preencha os parametros para comparar renda fixa e variavel
+            Preencha os parâmetros para comparar renda fixa e variável
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="name">Nome da simulacao</Label>
+            <Label htmlFor="name">Nome da simulação</Label>
             <Input
               id="name"
               placeholder="Ex: Aposentadoria 2030"
@@ -131,6 +131,7 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
                 placeholder="R$ 0,00"
                 value={initialAmountInput.displayValue}
                 onChange={initialAmountInput.onChange}
+                onKeyDown={initialAmountInput.onKeyDown}
                 onBlur={initialAmountInput.onBlur}
               />
               {errors.initialAmount && (
@@ -147,6 +148,7 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
                 placeholder="R$ 0,00"
                 value={monthlyInput.displayValue}
                 onChange={monthlyInput.onChange}
+                onKeyDown={monthlyInput.onKeyDown}
                 onBlur={monthlyInput.onBlur}
               />
               {errors.monthlyContribution && (
@@ -158,7 +160,7 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="periodMonths">Periodo (meses)</Label>
+            <Label htmlFor="periodMonths">Período (meses)</Label>
             <Input
               id="periodMonths"
               type="number"
@@ -266,7 +268,7 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
           disabled={isLoading}
         >
           {isSaving && <Loader2 className="mr-2 size-4 animate-spin" />}
-          Salvar Simulacao
+          Salvar Simulação
         </Button>
       </div>
     </form>

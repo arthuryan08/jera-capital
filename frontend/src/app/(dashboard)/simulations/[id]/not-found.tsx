@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function SimulationNotFound() {
@@ -7,13 +7,13 @@ export default function SimulationNotFound() {
     <div className="flex items-center justify-center py-16">
       <Card className="max-w-md">
         <CardContent className="flex flex-col items-center gap-4 py-8">
-          <h2 className="text-xl font-semibold">Simulacao nao encontrada</h2>
+          <h2 className="text-xl font-semibold">Simulação não encontrada</h2>
           <p className="text-center text-muted-foreground">
-            A simulacao que voce procura nao existe ou foi excluida.
+            A simulação que você procura não existe ou foi excluída.
           </p>
-          <Button render={<Link href="/simulations" />}>
-            Voltar ao historico
-          </Button>
+          <Link href="/simulations" className={buttonVariants()}>
+            Voltar ao histórico
+          </Link>
         </CardContent>
       </Card>
     </div>

@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { ArrowRight, PlusCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import {
   Card,
   CardContent,
@@ -31,12 +31,12 @@ export function RecentSimulations({ simulations }: RecentSimulationsProps) {
       <Card>
         <CardContent className="flex flex-col items-center justify-center py-12">
           <p className="mb-4 text-muted-foreground">
-            Voce ainda nao tem simulacoes
+            Você ainda não tem simulações
           </p>
-          <Button render={<Link href="/simulations/new" />}>
+          <Link href="/simulations/new" className={buttonVariants()}>
             <PlusCircle className="mr-2 size-4" />
-            Criar Simulacao
-          </Button>
+            Criar Simulação
+          </Link>
         </CardContent>
       </Card>
     )
@@ -46,13 +46,13 @@ export function RecentSimulations({ simulations }: RecentSimulationsProps) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>Simulacoes Recentes</CardTitle>
-          <CardDescription>Ultimas simulacoes realizadas</CardDescription>
+          <CardTitle>Simulações Recentes</CardTitle>
+          <CardDescription>Últimas simulações realizadas</CardDescription>
         </div>
-        <Button variant="outline" size="sm" render={<Link href="/simulations" />}>
+        <Link href="/simulations" className={buttonVariants({ variant: "outline", size: "sm" })}>
           Ver todas
           <ArrowRight className="ml-2 size-4" />
-        </Button>
+        </Link>
       </CardHeader>
       <CardContent>
         <Table>
@@ -61,7 +61,7 @@ export function RecentSimulations({ simulations }: RecentSimulationsProps) {
               <TableHead>Nome</TableHead>
               <TableHead className="text-right">Valor Inicial</TableHead>
               <TableHead className="text-right">Periodo</TableHead>
-              <TableHead className="text-right">Diferenca</TableHead>
+              <TableHead className="text-right">Diferença</TableHead>
               <TableHead className="text-right">Data</TableHead>
             </TableRow>
           </TableHeader>

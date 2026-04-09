@@ -34,11 +34,11 @@ export function SimulationCard({ simulation }: SimulationCardProps) {
       await clientFetch(`/api/simulations/${simulation.id}`, {
         method: "DELETE",
       })
-      toast.success("Simulacao excluida com sucesso")
+      toast.success("Simulação excluída com sucesso")
       router.refresh()
     } catch (err) {
       toast.error(
-        err instanceof Error ? err.message : "Erro ao excluir simulacao"
+        err instanceof Error ? err.message : "Erro ao excluir simulação"
       )
     } finally {
       setIsDeleting(false)

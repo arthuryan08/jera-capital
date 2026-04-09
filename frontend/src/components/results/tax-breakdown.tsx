@@ -27,7 +27,7 @@ export function TaxBreakdown({ fixedTax, variableTax }: TaxBreakdownProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Detalhamento Tributario</CardTitle>
+        <CardTitle>Detalhamento Tributário</CardTitle>
         <CardDescription>
           IR e IOF aplicados sobre o rendimento bruto
         </CardDescription>
@@ -74,7 +74,7 @@ export function TaxBreakdown({ fixedTax, variableTax }: TaxBreakdownProps) {
               </TableCell>
             </TableRow>
             <TableRow className="font-semibold">
-              <TableCell>Rendimento Liquido</TableCell>
+              <TableCell>Rendimento Líquido</TableCell>
               <TableCell className="text-right">
                 {formatCurrency(fixedTax.netIncome)}
               </TableCell>

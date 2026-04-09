@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { PlusCircle } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { SimulationCard } from "./simulation-card"
 import type { SimulationListItem } from "@/types/simulation"
 
@@ -15,12 +15,12 @@ export function SimulationList({ simulations }: SimulationListProps) {
     return (
       <div className="flex flex-col items-center justify-center rounded-xl border border-dashed py-16">
         <p className="mb-4 text-muted-foreground">
-          Nenhuma simulacao encontrada
+          Nenhuma simulação encontrada
         </p>
-        <Button render={<Link href="/simulations/new" />}>
+        <Link href="/simulations/new" className={buttonVariants()}>
           <PlusCircle className="mr-2 size-4" />
-          Criar Simulacao
-        </Button>
+          Criar Simulação
+        </Link>
       </div>
     )
   }

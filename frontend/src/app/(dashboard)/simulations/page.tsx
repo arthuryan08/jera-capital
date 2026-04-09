@@ -27,12 +27,12 @@ export default async function SimulationsPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">
-          Historico de Simulacoes
+          Histórico de Simulações
         </h1>
         <p className="text-muted-foreground">
           {total > 0
-            ? `${total} simulacao${total !== 1 ? "es" : ""} encontrada${total !== 1 ? "s" : ""}`
-            : "Nenhuma simulacao encontrada"}
+            ? `${total} simulação${total !== 1 ? "es" : ""} encontrada${total !== 1 ? "s" : ""}`
+            : "Nenhuma simulação encontrada"}
         </p>
       </div>
 

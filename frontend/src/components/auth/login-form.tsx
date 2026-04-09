@@ -37,7 +37,7 @@ export function LoginForm() {
       })
 
       if (result?.error) {
-        toast.error("Credenciais invalidas")
+        toast.error("Credenciais inválidas")
         return
       }
 
@@ -83,7 +83,7 @@ export function LoginForm() {
             )}
           </div>
 
-          <Button className="w-full" disabled={isLoading}>
+          <Button type="submit" className="w-full" disabled={isLoading}>
             {isLoading ? (
               <>
                 <Loader2 className="mr-2 size-4 animate-spin" />
@@ -97,7 +97,7 @@ export function LoginForm() {
       </CardContent>
       <CardFooter className="justify-center">
         <p className="text-sm text-muted-foreground">
-          Nao tem conta?{" "}
+          Não tem conta?{" "}
           <Link href="/register" className="text-primary hover:underline">
             Cadastrar
           </Link>

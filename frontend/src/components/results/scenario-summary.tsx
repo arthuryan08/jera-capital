@@ -31,10 +31,10 @@ export function ScenarioSummary({
           <div className="flex items-center justify-between">
             <CardTitle>Renda Fixa</CardTitle>
             {fixedWins && (
-              <Badge variant="default">Melhor opcao</Badge>
+              <Badge variant="default">Melhor opção</Badge>
             )}
           </div>
-          <CardDescription>Resultado liquido apos impostos</CardDescription>
+          <CardDescription>Resultado líquido após impostos</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">
@@ -56,7 +56,7 @@ export function ScenarioSummary({
             </span>
           </div>
           <div className="flex justify-between border-t pt-3">
-            <span className="font-semibold">Saldo Liquido</span>
+            <span className="font-semibold">Saldo Líquido</span>
             <span className="font-bold text-primary">
               {formatCurrency(fixed.finalNetBalance)}
             </span>
@@ -69,10 +69,10 @@ export function ScenarioSummary({
           <div className="flex items-center justify-between">
             <CardTitle>Renda Variavel</CardTitle>
             {!fixedWins && (
-              <Badge variant="default">Melhor opcao</Badge>
+              <Badge variant="default">Melhor opção</Badge>
             )}
           </div>
-          <CardDescription>Cenario esperado com faixa de volatilidade</CardDescription>
+          <CardDescription>Cenário esperado com faixa de volatilidade</CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex justify-between">

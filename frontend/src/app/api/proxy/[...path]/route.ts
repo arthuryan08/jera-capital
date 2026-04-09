@@ -10,11 +10,11 @@ async function handler(
   const session = await auth()
 
   if (!session?.backendToken) {
-    return NextResponse.json({ message: "Nao autorizado" }, { status: 401 })
+    return NextResponse.json({ message: "Não autorizado" }, { status: 401 })
   }
 
   const { path } = await params
-  const backendPath = `/api/${path.join("/")}`
+  const backendPath = `/${path.join("/")}`
   const url = new URL(backendPath, BACKEND_URL)
 
   const headers: HeadersInit = {

@@ -1,9 +1,11 @@
 import { notFound } from "next/navigation"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge"
 import { serverFetch } from "@/lib/api-client"
 import { ResultsView } from "@/components/results/results-view"
+import { DeleteSimulationButton } from "@/components/simulations/delete-simulation-button"
 import { formatCurrency, formatDate, formatPercent } from "@/lib/format"
 import type { SimulationRecord } from "@/types/simulation"
 
@@ -27,22 +29,40 @@ export default async function SimulationDetailPage({
 
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-4">
-        <Button variant="ghost" size="icon" render={<Link href="/simulations" />}>
+      <div className="flex items-start gap-4">
+        <Link
+          href="/simulations"
+          className={buttonVariants({ variant: "ghost", size: "icon" })}
+        >
           <ArrowLeft className="size-4" />
-        </Button>
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight">
-            {simulation.name}
-          </h1>
-          <p className="text-muted-foreground">
-            Criada em {formatDate(simulation.createdAt)} | Valor inicial:{" "}
-            {formatCurrency(simulation.initialAmount)} | Aporte:{" "}
-            {formatCurrency(simulation.monthlyContribution)}/mes |{" "}
-            {simulation.periodMonths} meses | RF:{" "}
-            {formatPercent(simulation.fixedAnnualRate * 100)} | RV:{" "}
-            {formatPercent(simulation.variableExpectedAnnualRate * 100)}
+        </Link>
+        <div className="min-w-0 flex-1">
+          <div className="flex items-center gap-3">
+            <h1 className="text-2xl font-bold tracking-tight truncate">
+              {simulation.name}
+            </h1>
+            <DeleteSimulationButton id={simulation.id} name={simulation.name} />
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Criada em {formatDate(simulation.createdAt)}
           </p>
+          <div className="mt-2 flex flex-wrap gap-2">
+            <Badge variant="secondary">
+              Inicial: {formatCurrency(simulation.initialAmount)}
+            </Badge>
+            <Badge variant="secondary">
+              Aporte: {formatCurrency(simulation.monthlyContribution)}/mês
+            </Badge>
+            <Badge variant="secondary">
+              {simulation.periodMonths} meses
+            </Badge>
+            <Badge variant="secondary">
+              RF: {formatPercent(simulation.fixedAnnualRate * 100)}
+            </Badge>
+            <Badge variant="secondary">
+              RV: {formatPercent(simulation.variableExpectedAnnualRate * 100)}
+            </Badge>
+          </div>
         </div>
       </div>
 

@@ -30,9 +30,9 @@ export function DeleteSimulationDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Excluir simulacao</DialogTitle>
+          <DialogTitle>Excluir simulação</DialogTitle>
           <DialogDescription>
-            Tem certeza que deseja excluir &quot;{name}&quot;? Esta acao nao
+            Tem certeza que deseja excluir &quot;{name}&quot;? Esta ação não
             pode ser desfeita.
           </DialogDescription>
         </DialogHeader>

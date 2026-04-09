@@ -29,7 +29,7 @@ export default async function DashboardPage() {
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Dashboard</h1>
         <p className="text-muted-foreground">
-          Resumo das suas simulacoes de investimento
+          Resumo das suas simulações de investimento
         </p>
       </div>
 

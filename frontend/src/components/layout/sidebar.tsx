@@ -15,8 +15,8 @@ interface SidebarProps {
 
 const navItems = [
   { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/simulations/new", label: "Nova Simulacao", icon: PlusCircle },
-  { href: "/simulations", label: "Historico", icon: History },
+  { href: "/simulations/new", label: "Nova Simulação", icon: PlusCircle },
+  { href: "/simulations", label: "Histórico", icon: History },
 ]
 
 export function Sidebar({ user }: SidebarProps) {

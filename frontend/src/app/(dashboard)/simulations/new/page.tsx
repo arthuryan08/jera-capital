@@ -16,9 +16,9 @@ export default function NewSimulationPage() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-2xl font-bold tracking-tight">Nova Simulacao</h1>
+        <h1 className="text-2xl font-bold tracking-tight">Nova Simulação</h1>
         <p className="text-muted-foreground">
-          Compare investimentos em renda fixa e variavel
+          Compare investimentos em renda fixa e variável
         </p>
       </div>
 
@@ -30,7 +30,7 @@ export default function NewSimulationPage() {
           ) : (
             <div className="flex h-64 items-center justify-center rounded-xl border border-dashed">
               <p className="text-muted-foreground">
-                Preencha o formulario e clique em Calcular para ver os resultados
+                Preencha o formulário e clique em Calcular para ver os resultados
               </p>
             </div>
           )}
