@@ -1,8 +1,8 @@
 export interface MonthlyDataPoint {
   month: number
-  balance: number
-  invested: number
-  earnings: number
+  totalInvested: number
+  grossBalance: number
+  monthlyInterest: number
 }
 
 export interface VariableBand {
@@ -10,35 +10,45 @@ export interface VariableBand {
   expected: number
   upper: number
   lower: number
-  invested: number
+  totalInvested: number
 }
 
 export interface TaxResult {
-  grossAmount: number
-  netAmount: number
-  taxRate: number
-  taxAmount: number
-  months: number
+  grossIncome: number
+  iofRate: number
+  iofAmount: number
+  irRate: number
+  irAmount: number
+  netIncome: number
 }
 
 export interface FixedIncomeResult {
-  finalBalance: number
+  monthlyEvolution: MonthlyDataPoint[]
+  finalGrossBalance: number
+  finalNetBalance: number
   totalInvested: number
-  totalEarnings: number
-  monthlyData: MonthlyDataPoint[]
-  tax: TaxResult
+  grossIncome: number
+  taxResult: TaxResult
 }
 
 export interface VariableIncomeResult {
-  expectedFinalBalance: number
-  upperBoundFinalBalance: number
-  lowerBoundFinalBalance: number
+  monthlyEvolution: VariableBand[]
+  finalExpected: number
+  finalUpper: number
+  finalLower: number
   totalInvested: number
-  bands: VariableBand[]
+  expectedTaxResult: TaxResult
 }
 
-export interface SimulationResult {
+export interface CalculationResult {
+  fixed: FixedIncomeResult
+  variable: VariableIncomeResult
+  pctDiff: number
+}
+
+export interface SimulationRecord {
   id: string
+  userId: string
   name: string
   initialAmount: number
   monthlyContribution: number
@@ -46,8 +56,13 @@ export interface SimulationResult {
   fixedAnnualRate: number
   variableExpectedAnnualRate: number
   variableVolatility: number
-  fixedIncome: FixedIncomeResult
-  variableIncome: VariableIncomeResult
+  fixedIncomeResult: FixedIncomeResult
+  variableIncomeResult: VariableIncomeResult
+  taxSummary: {
+    fixed: TaxResult
+    variable: TaxResult
+  }
+  comparisonPctDiff: number
   createdAt: string
   updatedAt: string
 }
@@ -61,10 +76,6 @@ export interface SimulationListItem {
   fixedAnnualRate: number
   variableExpectedAnnualRate: number
   variableVolatility: number
+  comparisonPctDiff: number
   createdAt: string
-}
-
-export interface CalculationPreview {
-  fixedIncome: FixedIncomeResult
-  variableIncome: VariableIncomeResult
 }

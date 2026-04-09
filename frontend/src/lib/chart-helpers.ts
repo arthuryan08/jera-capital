@@ -22,11 +22,11 @@ export function mergeChartData(
 
     result.push({
       month: fixedPoint?.month ?? variablePoint?.month ?? i + 1,
-      "Renda Fixa": fixedPoint?.balance ?? 0,
+      "Renda Fixa": fixedPoint?.grossBalance ?? 0,
       "Renda Variavel (Esperado)": variablePoint?.expected ?? 0,
       "Renda Variavel (Superior)": variablePoint?.upper ?? 0,
       "Renda Variavel (Inferior)": variablePoint?.lower ?? 0,
-      "Total Investido": fixedPoint?.invested ?? variablePoint?.invested ?? 0,
+      "Total Investido": fixedPoint?.totalInvested ?? variablePoint?.totalInvested ?? 0,
     })
   }
 
