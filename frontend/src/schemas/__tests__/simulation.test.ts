@@ -1,0 +1,96 @@
+import { describe, it, expect } from "vitest"
+import { createSimulationSchema } from "../simulation"
+
+describe("createSimulationSchema", () => {
+  const validInput = {
+    name: "Test Simulation",
+    initialAmount: 10000,
+    monthlyContribution: 500,
+    periodMonths: 12,
+    fixedAnnualRate: 10,
+    variableExpectedAnnualRate: 15,
+    variableVolatility: 5,
+  }
+
+  it("accepts valid input", () => {
+    const result = createSimulationSchema.safeParse(validInput)
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects empty name", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      name: "",
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects negative initial amount", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      initialAmount: -100,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects zero period months", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      periodMonths: 0,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects period above 600 months", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      periodMonths: 601,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects non-integer period months", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      periodMonths: 12.5,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects fixed rate above 100", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      fixedAnnualRate: 101,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects variable expected rate below -50", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      variableExpectedAnnualRate: -51,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects negative volatility", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      variableVolatility: -1,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("accepts boundary values", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      initialAmount: 0,
+      monthlyContribution: 0,
+      periodMonths: 1,
+      fixedAnnualRate: 0,
+      variableExpectedAnnualRate: -50,
+      variableVolatility: 0,
+    })
+    expect(result.success).toBe(true)
+  })
+})
