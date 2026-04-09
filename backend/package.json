@@ -1,0 +1,38 @@
+{
+  "name": "jera-capital-backend",
+  "version": "1.0.0",
+  "description": "Jera Capital Investment Calculator - Backend API",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
+  },
+  "dependencies": {
+    "fastify": "^5.2.1",
+    "@fastify/swagger": "^9.4.2",
+    "@fastify/swagger-ui": "^5.2.1",
+    "@fastify/cors": "^10.0.2",
+    "@fastify/jwt": "^9.0.2",
+    "fastify-type-provider-zod": "^4.0.2",
+    "zod": "^3.24.2",
+    "drizzle-orm": "^0.40.0",
+    "@libsql/client": "^0.14.0",
+    "uuid": "^11.1.0",
+    "bcryptjs": "^2.4.3"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.0",
+    "typescript": "^5.7.3",
+    "vitest": "^3.0.5",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/uuid": "^10.0.0",
+    "@types/node": "^22.13.4",
+    "tsx": "^4.19.2"
+  }
+}
