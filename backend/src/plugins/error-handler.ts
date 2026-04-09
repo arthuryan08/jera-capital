@@ -2,7 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { ZodError } from "zod";
 
 export function registerErrorHandler(app: FastifyInstance) {
-  app.setErrorHandler((error, _request, reply) => {
+  app.setErrorHandler((error: unknown, _request, reply) => {
     if (error instanceof ZodError) {
       return reply.status(400).send({
         error: "Validation Error",
@@ -10,9 +10,10 @@ export function registerErrorHandler(app: FastifyInstance) {
       });
     }
 
-    if (error.statusCode) {
-      return reply.status(error.statusCode).send({
-        error: error.message,
+    const err = error as { statusCode?: number; message?: string };
+    if (err.statusCode) {
+      return reply.status(err.statusCode).send({
+        error: err.message,
       });
     }
 
