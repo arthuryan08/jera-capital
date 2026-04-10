@@ -20,7 +20,7 @@ async function main() {
 
   await app.listen({ port: env.PORT, host: "0.0.0.0" });
   console.log(`Server running at http://localhost:${env.PORT}`);
-  console.log(`Swagger at http://localhost:${env.PORT}/documentation`);
+  console.log(`Swagger at http://localhost:${env.PORT}/docs`);
 }
 
 main().catch((err) => {

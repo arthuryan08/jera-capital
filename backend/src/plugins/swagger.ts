@@ -1,5 +1,6 @@
 import swagger from "@fastify/swagger";
 import swaggerUi from "@fastify/swagger-ui";
+import { jsonSchemaTransform } from "fastify-type-provider-zod";
 import type { FastifyInstance } from "fastify";
 
 export async function registerSwagger(app: FastifyInstance) {
@@ -20,9 +21,13 @@ export async function registerSwagger(app: FastifyInstance) {
         },
       },
     },
+    transform: jsonSchemaTransform,
   });
 
   await app.register(swaggerUi, {
-    routePrefix: "/documentation",
+    routePrefix: "/docs",
+    uiConfig: {
+      docExpansion: "list",
+    },
   });
 }

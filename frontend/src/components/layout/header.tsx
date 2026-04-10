@@ -1,5 +1,6 @@
 import { UserMenu } from "@/components/auth/user-menu"
 import { MobileNav } from "@/components/layout/mobile-nav"
+import { ThemeToggle } from "@/components/layout/theme-toggle"
 
 interface HeaderProps {
   user: {
@@ -15,7 +16,10 @@ export function Header({ user }: HeaderProps) {
         <MobileNav user={user} />
         <span className="text-lg font-semibold md:hidden">Jera Capital</span>
       </div>
-      <UserMenu user={user} />
+      <div className="flex items-center gap-2">
+        <ThemeToggle />
+        <UserMenu user={user} />
+      </div>
     </header>
   )
 }

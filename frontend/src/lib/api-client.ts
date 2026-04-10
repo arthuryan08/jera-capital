@@ -34,6 +34,10 @@ export async function serverFetch<T>(
     throw new ApiError(res.status, body.message || "Erro desconhecido")
   }
 
+  if (res.status === 204) {
+    return undefined as T
+  }
+
   return res.json() as Promise<T>
 }
 
@@ -52,6 +56,10 @@ export async function clientFetch<T>(
   if (!res.ok) {
     const body = await res.json().catch(() => ({ message: "Erro desconhecido" }))
     throw new ApiError(res.status, body.message || "Erro desconhecido")
+  }
+
+  if (res.status === 204) {
+    return undefined as T
   }
 
   return res.json() as Promise<T>

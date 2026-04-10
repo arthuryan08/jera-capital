@@ -1,7 +1,7 @@
 # API Reference
 
 Base URL: `http://localhost:3001`
-Swagger UI: `http://localhost:3001/documentation`
+Swagger UI: `http://localhost:3001/docs`
 
 All simulation endpoints require `Authorization: Bearer <token>` header.
 
