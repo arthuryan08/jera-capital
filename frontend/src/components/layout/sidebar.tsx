@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils"
 import { Separator } from "@/components/ui/separator"
 
 interface SidebarProps {
-  user: {
+  user?: {
     name?: string | null
     email?: string | null
   }
@@ -56,9 +56,9 @@ export function Sidebar({ user }: SidebarProps) {
       <Separator />
       <div className="px-4 py-3">
         <p className="truncate text-sm font-medium">
-          {user.name || "Usuario"}
+          {user?.name || "Usuário"}
         </p>
-        <p className="truncate text-xs text-muted-foreground">{user.email}</p>
+        <p className="truncate text-xs text-muted-foreground">{user?.email}</p>
       </div>
     </aside>
   )

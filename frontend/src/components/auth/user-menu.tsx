@@ -14,14 +14,14 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 interface UserMenuProps {
-  user: {
+  user?: {
     name?: string | null
     email?: string | null
   }
 }
 
 export function UserMenu({ user }: UserMenuProps) {
-  const initials = user.name
+  const initials = user?.name
     ? user.name
         .split(" ")
         .map((n) => n[0])
@@ -41,8 +41,8 @@ export function UserMenu({ user }: UserMenuProps) {
         <DropdownMenuGroup>
           <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium">{user.name || "Usuário"}</p>
-              <p className="text-xs text-muted-foreground">{user.email}</p>
+              <p className="text-sm font-medium">{user?.name || "Usuário"}</p>
+              <p className="text-xs text-muted-foreground">{user?.email}</p>
             </div>
           </DropdownMenuLabel>
         </DropdownMenuGroup>

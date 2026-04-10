@@ -12,7 +12,7 @@ import { Sidebar } from "@/components/layout/sidebar"
 import { useState } from "react"
 
 interface MobileNavProps {
-  user: {
+  user?: {
     name?: string | null
     email?: string | null
   }

@@ -3,7 +3,7 @@ import { MobileNav } from "@/components/layout/mobile-nav"
 import { ThemeToggle } from "@/components/layout/theme-toggle"
 
 interface HeaderProps {
-  user: {
+  user?: {
     name?: string | null
     email?: string | null
   }
