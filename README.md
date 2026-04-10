@@ -11,7 +11,7 @@ Full-stack investment calculator that simulates and compares **Fixed Income** vs
 | Database    | SQLite via Drizzle ORM + @libsql/client        | Zero external deps, type-safe queries, pure JS driver |
 | Auth        | NextAuth.js v5 (credentials provider) + JWT    | Session management + stateless API auth |
 | Validation  | Zod                                            | Shared schemas between frontend forms and backend validation |
-| Testing     | Vitest (69 tests: 44 backend + 25 frontend)    | Fast, ESM-native, compatible with TypeScript |
+| Testing     | Vitest (162 tests: 106 backend + 56 frontend)  | Fast, ESM-native, compatible with TypeScript |
 | API Docs    | Swagger (OpenAPI 3.0)                          | Auto-generated from Zod schemas via fastify-type-provider-zod |
 | Charts      | Recharts (via shadcn/ui charts)                | Declarative, composable, React-native |
 | Container   | Docker + Docker Compose                        | One-command deployment |
@@ -19,7 +19,7 @@ Full-stack investment calculator that simulates and compares **Fixed Income** vs
 ## Getting Started
 
 ### Prerequisites
-- Node.js 24+
+- Node.js 20+ (developed and tested with Node 24, Docker images use node:24-slim)
 - npm 10+
 
 ### Local Development
@@ -41,7 +41,7 @@ npm run dev          # http://localhost:3000
 ### Default Ports
 - Frontend: 3000
 - Backend: 3001
-- Swagger UI: http://localhost:3001/documentation
+- Swagger UI: http://localhost:3001/docs
 
 ### Seed User (for testing)
 A default user is created on first startup:
@@ -59,10 +59,10 @@ docker compose up --build
 ### Running Tests
 
 ```bash
-# Backend tests (44 tests: engine unit + API integration)
+# Backend tests (106 tests: engine unit + API integration)
 cd backend && npm test
 
-# Frontend tests (25 tests: schemas + utilities + chart helpers)
+# Frontend tests (56 tests: schemas + auth + utilities + chart helpers)
 cd frontend && npm test
 ```
 
@@ -140,7 +140,7 @@ SQLite Database (users + simulations)
 | DELETE | /api/simulations/:id        | Delete simulation        | Yes  |
 | POST   | /api/simulations/calculate  | Preview (no save)        | Yes  |
 
-Full API documentation available at Swagger UI: http://localhost:3001/documentation
+Full API documentation available at Swagger UI: http://localhost:3001/docs
 
 ## Business Rules
 
@@ -157,6 +157,14 @@ R$ 1,000 invested, redeemed day 10, R$ 50 gross income:
 - IOF (69%): R$ 34.50
 - IR (22.5% on R$ 15.50): R$ 3.49
 - **Net income: R$ 12.01**
+
+### Assumptions & Limitations
+
+- The form works with whole month periods (minimum 1 month). IOF, which only applies to redemptions within the first 30 days, is not applicable via the form (1 month = 30 days = exempt). Unit tests cover IOF calculation for any number of days, including the exact example from the spec (redemption on day 10).
+- Variable income simulation uses a deterministic model with volatility bands (expected return +/- volatility), not Monte Carlo. Deliberate choice for clarity, reproducibility, and testability. In production, Monte Carlo with log-normal distribution would be more realistic.
+- Taxes (IR and IOF) are applied only to fixed income, as specified in the challenge requirements.
+- Annual-to-monthly rate conversion uses the correct compound interest formula: `(1 + annual)^(1/12) - 1`, not simple division by 12.
+- The "Best option" badge compares fixed income net return against the expected (central) variable income return.
 
 ## Project Structure
 
@@ -193,16 +201,24 @@ jeracapital/
 │   ├── lib/                   # api-client, format, chart-helpers
 │   ├── schemas/               # Zod validation schemas
 │   └── types/                 # TypeScript interfaces
-├── docs/                      # Tax rules, architecture, API docs, prompts
+├── docs/
+│   ├── tax-rules.md           # Detailed tax calculation rules
+│   ├── architecture.md        # Architecture decisions
+│   ├── api.md                 # API reference
+│   └── prompts/               # AI prompts used during development
 ├── docker-compose.yml
 └── CLAUDE.md                  # Project specification
 ```
 
 ## AI Tools Used
 
-This project was developed with assistance from **Claude Code** (Anthropic's CLI for Claude), which helped with:
-- Architecture design and step-by-step implementation planning
-- TDD workflow for financial calculation engine
-- Code generation following layered architecture patterns
-- Test writing and verification (69 tests total)
-- Documentation and Docker configuration
+This project was developed with assistance from **Claude Code** (Anthropic's CLI agent for Claude) and **Claude.ai** (chat interface).
+
+**How AI was used:**
+- **Architecture planning**: discussed trade-offs between frameworks (Fastify vs NestJS vs Express), auth strategies (NextAuth vs custom JWT), ORM choices (Drizzle vs Prisma), and variable income models (deterministic vs Monte Carlo)
+- **TDD workflow**: generated unit tests for the financial engine first, then implemented functions to pass them
+- **Code generation**: layered architecture (controllers, services, repositories, engine), React components with shadcn/ui, chart configuration
+- **Debugging**: Swagger integration, NextAuth + Fastify JWT interop, Recharts volatility band rendering
+- **Documentation**: README structure, CLAUDE.md specification, architecture docs
+
+**All prompts used during development are available in `docs/prompts/`.**

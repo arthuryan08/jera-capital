@@ -33,10 +33,26 @@ describe("createSimulationSchema", () => {
     expect(result.success).toBe(false)
   })
 
+  it("accepts zero initial amount", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      initialAmount: 0,
+    })
+    expect(result.success).toBe(true)
+  })
+
   it("rejects zero period months", () => {
     const result = createSimulationSchema.safeParse({
       ...validInput,
       periodMonths: 0,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("rejects negative period months", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      periodMonths: -5,
     })
     expect(result.success).toBe(false)
   })
@@ -65,6 +81,14 @@ describe("createSimulationSchema", () => {
     expect(result.success).toBe(false)
   })
 
+  it("rejects negative fixed rate", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      fixedAnnualRate: -1,
+    })
+    expect(result.success).toBe(false)
+  })
+
   it("rejects variable expected rate below -50", () => {
     const result = createSimulationSchema.safeParse({
       ...validInput,
@@ -73,10 +97,34 @@ describe("createSimulationSchema", () => {
     expect(result.success).toBe(false)
   })
 
+  it("accepts variable expected rate of -50 (boundary)", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      variableExpectedAnnualRate: -50,
+    })
+    expect(result.success).toBe(true)
+  })
+
   it("rejects negative volatility", () => {
     const result = createSimulationSchema.safeParse({
       ...validInput,
       variableVolatility: -1,
+    })
+    expect(result.success).toBe(false)
+  })
+
+  it("accepts zero volatility", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      variableVolatility: 0,
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("rejects volatility above 100", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      variableVolatility: 101,
     })
     expect(result.success).toBe(false)
   })
@@ -90,6 +138,25 @@ describe("createSimulationSchema", () => {
       fixedAnnualRate: 0,
       variableExpectedAnnualRate: -50,
       variableVolatility: 0,
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("accepts max boundary values", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      periodMonths: 600,
+      fixedAnnualRate: 100,
+      variableExpectedAnnualRate: 200,
+      variableVolatility: 100,
+    })
+    expect(result.success).toBe(true)
+  })
+
+  it("optional monthly contribution defaults behavior", () => {
+    const result = createSimulationSchema.safeParse({
+      ...validInput,
+      monthlyContribution: 0,
     })
     expect(result.success).toBe(true)
   })

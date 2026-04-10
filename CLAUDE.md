@@ -16,7 +16,7 @@ Full-stack investment calculator that simulates and compares Fixed Income vs Var
 ### Default Ports
 - Frontend: 3000
 - Backend: 3001
-- Swagger UI: http://localhost:3001/documentation
+- Swagger UI: http://localhost:3001/docs
 
 ## Project Structure
 ```
@@ -74,6 +74,13 @@ jeracapital/
 - **Client components**: forms, charts, dropdowns, anything with event handlers or browser APIs
 - **API proxy pattern**: client-side requests go through `/api/proxy/[...path]` to keep backend URL secret and attach JWT server-side
 - **react-hook-form + Zod**: all forms use zodResolver for validation
+
+### Testing Strategy
+- **Engine tests (unit)**: Every pure calculation function is tested with boundary values, zero values, large values, and the spec example. These are the most critical tests as financial calculations must be exact.
+- **Integration tests**: API routes tested via `app.inject()` with in-memory SQLite. Cover CRUD operations, auth protection, input validation, and cross-user isolation.
+- **Frontend tests**: Zod schema validation, formatting utilities, and chart data transformation.
+- **TDD approach**: Engine tests written first, implementation follows. Tests run before commit.
+- **Test counts**: 106 backend (72 engine unit + 34 integration) + 56 frontend = 162 total.
 
 ### Auth Flow
 1. Backend exposes `POST /api/auth/login` which validates email/password with bcrypt and returns a signed JWT with the `JWT_SECRET` envelope.
