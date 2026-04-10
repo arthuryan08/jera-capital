@@ -1,0 +1,72 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm *)",
+      "Bash(npx *)",
+      "Bash(node *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git status)",
+      "Bash(git log *)",
+      "Bash(git diff *)",
+      "Bash(cat *)",
+      "Bash(ls *)",
+      "Bash(mkdir *)",
+      "Bash(cp *)",
+      "Bash(head *)",
+      "Bash(tail *)",
+      "Bash(grep *)",
+      "Bash(find *)",
+      "Bash(echo *)",
+      "Bash(curl localhost:*)",
+      "Edit(backend/**)",
+      "Edit(frontend/**)",
+      "Edit(docs/**)",
+      "Edit(.claude/**)",
+      "Edit(docker-compose.yml)",
+      "Edit(README.md)",
+      "Read(backend/**)",
+      "Read(frontend/**)",
+      "Read(docs/**)",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(sudo *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "cd backend && npx tsc --noEmit 2>&1 | tail -20; cd ../frontend && npx tsc --noEmit 2>&1 | tail -20"
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '📋 Leia CLAUDE.md e docs/tax-rules.md antes de começar qualquer task'"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo '✅ Commite com mensagem semântica se a task está completa (feat:, test:, fix:, docs:)'"
+          }
+        ]
+      }
+    ]
+  }
+}
