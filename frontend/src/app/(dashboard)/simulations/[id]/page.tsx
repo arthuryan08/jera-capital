@@ -28,7 +28,7 @@ export default async function SimulationDetailPage({
   }
 
   return (
-    <div className="space-y-8">
+    <div className="min-w-0 space-y-8">
       <div className="flex items-start gap-4">
         <Link
           href="/simulations"
@@ -37,8 +37,8 @@ export default async function SimulationDetailPage({
           <ArrowLeft className="size-4" />
         </Link>
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold tracking-tight truncate">
+          <div className="flex min-w-0 items-center gap-3">
+            <h1 className="min-w-0 truncate text-2xl font-bold tracking-tight">
               {simulation.name}
             </h1>
             <DeleteSimulationButton id={simulation.id} name={simulation.name} />

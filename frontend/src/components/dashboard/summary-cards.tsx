@@ -21,7 +21,7 @@ export function SummaryCards({ total, simulations }: SummaryCardsProps) {
 
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      <Card>
+      <Card className="min-w-0">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Total de Simulações
@@ -33,7 +33,7 @@ export function SummaryCards({ total, simulations }: SummaryCardsProps) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="min-w-0">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Investimento Medio
@@ -47,7 +47,7 @@ export function SummaryCards({ total, simulations }: SummaryCardsProps) {
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="min-w-0">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <CardTitle className="text-sm font-medium">
             Última Simulação

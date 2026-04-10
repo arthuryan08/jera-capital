@@ -25,14 +25,14 @@ interface TaxBreakdownProps {
 
 export function TaxBreakdown({ fixedTax, variableTax }: TaxBreakdownProps) {
   return (
-    <Card>
+    <Card className="min-w-0">
       <CardHeader>
         <CardTitle>Detalhamento Tributário</CardTitle>
         <CardDescription>
           IR e IOF aplicados sobre o rendimento bruto
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>

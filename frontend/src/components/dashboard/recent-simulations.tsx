@@ -43,18 +43,21 @@ export function RecentSimulations({ simulations }: RecentSimulationsProps) {
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <div>
+    <Card className="min-w-0">
+      <CardHeader className="flex flex-row items-center justify-between gap-2">
+        <div className="min-w-0">
           <CardTitle>Simulações Recentes</CardTitle>
           <CardDescription>Últimas simulações realizadas</CardDescription>
         </div>
-        <Link href="/simulations" className={buttonVariants({ variant: "outline", size: "sm" })}>
+        <Link
+          href="/simulations"
+          className={buttonVariants({ variant: "outline", size: "sm" })}
+        >
           Ver todas
           <ArrowRight className="ml-2 size-4" />
         </Link>
       </CardHeader>
-      <CardContent>
+      <CardContent className="overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow>

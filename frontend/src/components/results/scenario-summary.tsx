@@ -26,7 +26,7 @@ export function ScenarioSummary({
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      <Card>
+      <Card className="min-w-0">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Renda Fixa</CardTitle>
@@ -64,7 +64,7 @@ export function ScenarioSummary({
         </CardContent>
       </Card>
 
-      <Card>
+      <Card className="min-w-0">
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle>Renda Variavel</CardTitle>
@@ -87,9 +87,9 @@ export function ScenarioSummary({
               {formatCurrency(variable.finalExpected)}
             </span>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-wrap justify-between gap-2">
             <span className="text-muted-foreground">Faixa</span>
-            <span className="text-sm font-medium">
+            <span className="text-right text-sm font-medium">
               {formatCurrency(variable.finalLower)} ~ {formatCurrency(variable.finalUpper)}
             </span>
           </div>

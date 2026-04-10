@@ -17,7 +17,7 @@ export function ResultsView({ result }: ResultsViewProps) {
   )
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       <ScenarioSummary
         fixed={result.fixed}
         variable={result.variable}

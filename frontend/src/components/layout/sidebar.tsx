@@ -11,6 +11,7 @@ interface SidebarProps {
     name?: string | null
     email?: string | null
   }
+  onNavigate?: () => void
 }
 
 const navItems = [
@@ -19,11 +20,11 @@ const navItems = [
   { href: "/simulations", label: "Histórico", icon: History },
 ]
 
-export function Sidebar({ user }: SidebarProps) {
+export function Sidebar({ user, onNavigate }: SidebarProps) {
   const pathname = usePathname()
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-30 flex h-screen w-64 flex-col overflow-y-auto border-r bg-card">
+    <aside className="flex h-full w-full flex-col overflow-y-auto bg-card">
       <div className="flex h-14 items-center px-6">
         <Link href="/dashboard" className="flex items-center gap-2">
           <span className="text-lg font-bold">Jera Capital</span>
@@ -40,6 +41,7 @@ export function Sidebar({ user }: SidebarProps) {
             <Link
               key={item.href}
               href={item.href}
+              onClick={onNavigate}
               className={cn(
                 "flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors",
                 isActive

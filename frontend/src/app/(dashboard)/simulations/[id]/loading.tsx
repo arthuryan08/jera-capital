@@ -3,12 +3,12 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 
 export default function SimulationDetailLoading() {
   return (
-    <div className="space-y-8">
+    <div className="min-w-0 space-y-8">
       <div className="flex items-center gap-4">
-        <Skeleton className="size-10 rounded-md" />
-        <div>
-          <Skeleton className="h-8 w-56" />
-          <Skeleton className="mt-2 h-4 w-96" />
+        <Skeleton className="size-10 shrink-0 rounded-md" />
+        <div className="min-w-0 flex-1">
+          <Skeleton className="h-8 w-full max-w-xs" />
+          <Skeleton className="mt-2 h-4 w-full max-w-md" />
         </div>
       </div>
 

@@ -114,15 +114,18 @@ export function ComparisonChart({ data }: ComparisonChartProps) {
   }))
 
   return (
-    <Card>
+    <Card className="min-w-0">
       <CardHeader>
         <CardTitle>Evolução Patrimonial</CardTitle>
         <CardDescription>
           Comparação entre renda fixa e variável ao longo do tempo
         </CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig} className="h-[400px] w-full">
+      <CardContent className="min-w-0 overflow-hidden px-2 sm:px-6">
+        <ChartContainer
+          config={chartConfig}
+          className="h-[320px] min-w-0 w-full sm:h-[400px]"
+        >
           <ComposedChart data={chartData}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis
@@ -135,7 +138,7 @@ export function ComparisonChart({ data }: ComparisonChartProps) {
               tickLine={false}
               axisLine={false}
               tickFormatter={(v) => formatCurrency(v)}
-              width={100}
+              width={80}
             />
             <ChartTooltip content={<CustomTooltip />} />
             <ChartLegend content={<ChartLegendContent />} />

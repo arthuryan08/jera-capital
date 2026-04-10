@@ -28,11 +28,14 @@ export function MobileNav({ user }: MobileNavProps) {
         <span className="sr-only">Menu</span>
       </Button>
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" className="w-64 p-0">
+        <SheetContent
+          side="left"
+          className="w-[85vw] max-w-xs border-r p-0 sm:w-72"
+        >
           <SheetHeader className="sr-only">
-            <SheetTitle>Menu de navegacao</SheetTitle>
+            <SheetTitle>Menu de navegação</SheetTitle>
           </SheetHeader>
-          <Sidebar user={user} />
+          <Sidebar user={user} onNavigate={() => setOpen(false)} />
         </SheetContent>
       </Sheet>
     </div>

@@ -14,7 +14,7 @@ export default function NewSimulationPage() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="min-w-0 space-y-8">
       <div>
         <h1 className="text-2xl font-bold tracking-tight">Nova Simulação</h1>
         <p className="text-muted-foreground">
@@ -23,8 +23,10 @@ export default function NewSimulationPage() {
       </div>
 
       <div className="grid gap-8 lg:grid-cols-[1fr_1fr]">
-        <SimulationForm onResult={handleResult} />
-        <div>
+        <div className="min-w-0">
+          <SimulationForm onResult={handleResult} />
+        </div>
+        <div className="min-w-0">
           {result ? (
             <ResultsView result={result} />
           ) : (
