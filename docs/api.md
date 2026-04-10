@@ -94,9 +94,9 @@ Create a simulation, calculate results, and save to database.
 | `name` | string | min 1, max 200 |
 | `initialAmount` | number | >= 0 |
 | `monthlyContribution` | number | >= 0 |
-| `periodMonths` | integer | 1-360 |
-| `fixedAnnualRate` | number | > 0, <= 1 (decimal, e.g. 0.12 = 12%) |
-| `variableExpectedAnnualRate` | number | > 0, <= 1 |
+| `periodMonths` | integer | 1-600 |
+| `fixedAnnualRate` | number | >= 0, <= 1 (decimal, e.g. 0.12 = 12%) |
+| `variableExpectedAnnualRate` | number | >= 0, <= 1 |
 | `variableVolatility` | number | >= 0, <= 1 |
 
 **Response (201):**

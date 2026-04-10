@@ -11,7 +11,7 @@ Full-stack investment calculator that simulates and compares **Fixed Income** vs
 | Database    | SQLite via Drizzle ORM + @libsql/client        | Zero external deps, type-safe queries, pure JS driver |
 | Auth        | NextAuth.js v5 (credentials provider) + JWT    | Session management + stateless API auth |
 | Validation  | Zod                                            | Shared schemas between frontend forms and backend validation |
-| Testing     | Vitest (162 tests: 106 backend + 56 frontend)  | Fast, ESM-native, compatible with TypeScript |
+| Testing     | Vitest (168 tests: 112 backend + 56 frontend)  | Fast, ESM-native, compatible with TypeScript |
 | API Docs    | Swagger (OpenAPI 3.0)                          | Auto-generated from Zod schemas via fastify-type-provider-zod |
 | Charts      | Recharts (via shadcn/ui charts)                | Declarative, composable, React-native |
 | Container   | Docker + Docker Compose                        | One-command deployment |
@@ -59,7 +59,7 @@ docker compose up --build
 ### Running Tests
 
 ```bash
-# Backend tests (106 tests: engine unit + API integration)
+# Backend tests (112 tests: engine unit + API integration)
 cd backend && npm test
 
 # Frontend tests (56 tests: schemas + auth + utilities + chart helpers)
@@ -82,7 +82,6 @@ cd frontend && npm test
 | BACKEND_URL      | http://localhost:3001  | Backend API URL (server-side) |
 | NEXTAUTH_URL     | http://localhost:3000  | NextAuth base URL            |
 | NEXTAUTH_SECRET  | (required)             | NextAuth encryption secret   |
-| JWT_SECRET       | (required)             | Must match backend           |
 
 ## Architecture
 
@@ -112,7 +111,7 @@ SQLite Database (users + simulations)
 3. JWT stored in NextAuth session via jwt + session callbacks
 4. Client requests go through `/api/proxy/[...path]` which injects JWT into Authorization header
 5. Backend validates JWT on all protected routes via @fastify/jwt plugin
-6. Same `JWT_SECRET` shared between backend and NextAuth
+6. Backend uses `JWT_SECRET` for API tokens; frontend uses `NEXTAUTH_SECRET` for session encryption. They are independent.
 
 ### Key Design Decisions
 

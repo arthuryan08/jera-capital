@@ -80,7 +80,7 @@ jeracapital/
 - **Integration tests**: API routes tested via `app.inject()` with in-memory SQLite. Cover CRUD operations, auth protection, input validation, and cross-user isolation.
 - **Frontend tests**: Zod schema validation, formatting utilities, and chart data transformation.
 - **TDD approach**: Engine tests written first, implementation follows. Tests run before commit.
-- **Test counts**: 106 backend (72 engine unit + 34 integration) + 56 frontend = 162 total.
+- **Test counts**: 112 backend (72 engine unit + 40 integration) + 56 frontend = 168 total.
 
 ### Auth Flow
 1. Backend exposes `POST /api/auth/login` which validates email/password with bcrypt and returns a signed JWT with the `JWT_SECRET` envelope.
@@ -88,7 +88,7 @@ jeracapital/
 3. The JWT returned by the backend is stored in the NextAuth session via callbacks (jwt + session).
 4. Requests from the frontend to the backend pass through the API proxy (`/api/proxy/[...path]`) which injects the JWT into the Authorization header.
 5. Backend validates the JWT on all protected routes via the @fastify/jwt plugin.
-6. The same `JWT_SECRET` must be shared between the backend and NextAuth.
+6. Backend uses `JWT_SECRET` for signing API tokens. Frontend uses `NEXTAUTH_SECRET` for encrypting session data. They are independent and do not need to match.
 
 ## Business Rules
 
