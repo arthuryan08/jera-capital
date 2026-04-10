@@ -19,7 +19,7 @@ export const createSimulationSchema = z.object({
     .max(100, "Taxa deve ser menor ou igual a 100"),
   variableExpectedAnnualRate: z
     .number({ error: "Retorno esperado é obrigatório" })
-    .min(-50, "Retorno deve ser maior ou igual a -50")
+    .min(0, "Retorno esperado deve ser maior ou igual a zero")
     .max(200, "Retorno deve ser menor ou igual a 200"),
   variableVolatility: z
     .number({ error: "Volatilidade é obrigatória" })

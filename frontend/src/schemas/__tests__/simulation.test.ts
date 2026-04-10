@@ -89,18 +89,26 @@ describe("createSimulationSchema", () => {
     expect(result.success).toBe(false)
   })
 
-  it("rejects variable expected rate below -50", () => {
+  it("rejects negative variable expected rate", () => {
     const result = createSimulationSchema.safeParse({
       ...validInput,
-      variableExpectedAnnualRate: -51,
+      variableExpectedAnnualRate: -0.01,
     })
     expect(result.success).toBe(false)
+    if (!result.success) {
+      const issue = result.error.issues.find(
+        (i) => i.path[0] === "variableExpectedAnnualRate"
+      )
+      expect(issue?.message).toBe(
+        "Retorno esperado deve ser maior ou igual a zero"
+      )
+    }
   })
 
-  it("accepts variable expected rate of -50 (boundary)", () => {
+  it("accepts zero variable expected rate (boundary)", () => {
     const result = createSimulationSchema.safeParse({
       ...validInput,
-      variableExpectedAnnualRate: -50,
+      variableExpectedAnnualRate: 0,
     })
     expect(result.success).toBe(true)
   })
@@ -136,7 +144,7 @@ describe("createSimulationSchema", () => {
       monthlyContribution: 0,
       periodMonths: 1,
       fixedAnnualRate: 0,
-      variableExpectedAnnualRate: -50,
+      variableExpectedAnnualRate: 0,
       variableVolatility: 0,
     })
     expect(result.success).toBe(true)

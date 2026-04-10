@@ -219,7 +219,7 @@ export function SimulationForm({ onResult }: SimulationFormProps) {
                 id="variableExpectedAnnualRate"
                 type="number"
                 step="0.01"
-                min={-50}
+                min={0}
                 max={200}
                 {...register("variableExpectedAnnualRate", {
                   valueAsNumber: true,

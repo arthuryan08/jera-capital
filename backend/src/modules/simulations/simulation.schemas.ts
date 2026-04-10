@@ -4,9 +4,9 @@ export const createSimulationSchema = z.object({
   name: z.string().min(1).max(200),
   initialAmount: z.number().nonnegative(),
   monthlyContribution: z.number().nonnegative(),
-  periodMonths: z.number().int().min(1).max(360),
-  fixedAnnualRate: z.number().positive().max(1),
-  variableExpectedAnnualRate: z.number().positive().max(1),
+  periodMonths: z.number().int().min(1).max(600),
+  fixedAnnualRate: z.number().nonnegative().max(1),
+  variableExpectedAnnualRate: z.number().nonnegative().max(1),
   variableVolatility: z.number().nonnegative().max(1),
 });
 
