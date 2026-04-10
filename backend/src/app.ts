@@ -1,4 +1,6 @@
 import Fastify from "fastify";
+import helmet from "@fastify/helmet";
+import rateLimit from "@fastify/rate-limit";
 import {
   serializerCompiler,
   validatorCompiler,
@@ -14,6 +16,7 @@ import { createDb, type Database } from "./db/client.js";
 declare module "fastify" {
   interface FastifyInstance {
     db: Database;
+    rateLimitMax: number;
   }
 }
 
@@ -23,6 +26,7 @@ export interface AppOptions {
   db?: Database;
   jwtSecret?: string;
   corsOrigin?: string;
+  rateLimitMax?: number;
 }
 
 export async function buildApp(options: AppOptions = {}) {
@@ -35,6 +39,9 @@ export async function buildApp(options: AppOptions = {}) {
   app.decorate("db", db);
 
   await registerCors(app, options.corsOrigin ?? "http://localhost:3000");
+  await app.register(helmet, { global: true });
+  await app.register(rateLimit, { global: false });
+  app.decorate("rateLimitMax", options.rateLimitMax ?? 5);
   await registerSwagger(app);
   registerErrorHandler(app);
   await registerAuth(app, options.jwtSecret ?? "dev-secret");

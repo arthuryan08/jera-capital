@@ -4,6 +4,7 @@ import { AuthController } from "./auth.controller.js";
 
 export async function authRoutes(app: FastifyInstance) {
   const controller = new AuthController(app);
+  const rlMax = (app as any).rateLimitMax ?? 5;
 
   app.post(
     "/api/auth/register",
@@ -12,6 +13,7 @@ export async function authRoutes(app: FastifyInstance) {
         body: registerSchema,
         tags: ["Auth"],
       },
+      config: { rateLimit: { max: rlMax, timeWindow: "1 minute" } },
     },
     (req, reply) => controller.register(req as any, reply)
   );
@@ -23,6 +25,7 @@ export async function authRoutes(app: FastifyInstance) {
         body: loginSchema,
         tags: ["Auth"],
       },
+      config: { rateLimit: { max: rlMax, timeWindow: "1 minute" } },
     },
     (req, reply) => controller.login(req as any, reply)
   );

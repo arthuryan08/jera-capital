@@ -27,6 +27,7 @@ beforeAll(async () => {
     logger: false,
     db,
     jwtSecret: "test-secret",
+    rateLimitMax: 1000,
   });
 
   // Register first test user
@@ -528,5 +529,124 @@ describe("DELETE /api/simulations/:id", () => {
       headers: { authorization: `Bearer ${authToken}` },
     });
     expect(res.statusCode).toBe(404);
+  });
+});
+
+// ===========================================
+// SECURITY TESTS
+// ===========================================
+
+describe("Security", () => {
+  it("login with wrong password returns 401 with generic message", async () => {
+    const res = await app.inject({
+      method: "POST",
+      url: "/api/auth/login",
+      payload: {
+        email: "test@example.com",
+        password: "wrongpassword",
+      },
+    });
+    expect(res.statusCode).toBe(401);
+    const body = JSON.parse(res.body);
+    expect(body.error).toBe("Invalid credentials");
+  });
+
+  it("login with non-existent email returns 401 with same generic message", async () => {
+    const res = await app.inject({
+      method: "POST",
+      url: "/api/auth/login",
+      payload: {
+        email: "nobody@example.com",
+        password: "password123",
+      },
+    });
+    expect(res.statusCode).toBe(401);
+    const body = JSON.parse(res.body);
+    expect(body.error).toBe("Invalid credentials");
+  });
+
+  it("GET another user's simulation returns 404 (not 403)", async () => {
+    // Create a simulation as first user
+    const createRes = await app.inject({
+      method: "POST",
+      url: "/api/simulations",
+      headers: { authorization: `Bearer ${authToken}` },
+      payload: { ...validSimulationPayload, name: "Security Test Sim" },
+    });
+    const { id } = JSON.parse(createRes.body);
+
+    // Try to access as second user
+    const res = await app.inject({
+      method: "GET",
+      url: `/api/simulations/${id}`,
+      headers: { authorization: `Bearer ${secondUserToken}` },
+    });
+    expect(res.statusCode).toBe(404);
+  });
+
+  it("DELETE another user's simulation returns 404 (not 403)", async () => {
+    // Create a simulation as first user
+    const createRes = await app.inject({
+      method: "POST",
+      url: "/api/simulations",
+      headers: { authorization: `Bearer ${authToken}` },
+      payload: { ...validSimulationPayload, name: "Security Delete Test" },
+    });
+    const { id } = JSON.parse(createRes.body);
+
+    // Try to delete as second user
+    const res = await app.inject({
+      method: "DELETE",
+      url: `/api/simulations/${id}`,
+      headers: { authorization: `Bearer ${secondUserToken}` },
+    });
+    expect(res.statusCode).toBe(404);
+
+    // Verify it still exists for the owner
+    const verifyRes = await app.inject({
+      method: "GET",
+      url: `/api/simulations/${id}`,
+      headers: { authorization: `Bearer ${authToken}` },
+    });
+    expect(verifyRes.statusCode).toBe(200);
+  });
+
+  it("all protected routes without JWT return 401", async () => {
+    const payload = {
+      name: "Test",
+      initialAmount: 1000,
+      monthlyContribution: 100,
+      periodMonths: 12,
+      fixedAnnualRate: 0.10,
+      variableExpectedAnnualRate: 0.12,
+      variableVolatility: 0.03,
+    };
+
+    const routes = [
+      { method: "POST" as const, url: "/api/simulations", payload },
+      { method: "POST" as const, url: "/api/simulations/calculate", payload },
+      { method: "GET" as const, url: "/api/simulations" },
+      { method: "GET" as const, url: "/api/simulations/00000000-0000-0000-0000-000000000000" },
+      { method: "DELETE" as const, url: "/api/simulations/00000000-0000-0000-0000-000000000000" },
+    ];
+
+    for (const route of routes) {
+      const res = await app.inject({
+        method: route.method,
+        url: route.url,
+        ...(route.payload ? { payload: route.payload } : {}),
+      });
+      expect(res.statusCode, `${route.method} ${route.url} should be 401`).toBe(401);
+    }
+  });
+
+  it("responses include security headers from helmet", async () => {
+    const res = await app.inject({
+      method: "GET",
+      url: "/api/simulations",
+      headers: { authorization: `Bearer ${authToken}` },
+    });
+    expect(res.headers["x-content-type-options"]).toBe("nosniff");
+    expect(res.headers["x-frame-options"]).toBe("SAMEORIGIN");
   });
 });
